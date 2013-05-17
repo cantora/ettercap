@@ -8,7 +8,7 @@ include(MacroEnsureOutOfSourceBuild)
 macro_ensure_out_of_source_build("${PROJECT_NAME} requires an out of source build. Please create a separate build directory and run 'cmake /path/to/${PROJECT_NAME} [options]' there.")
 
 option(ENABLE_CURSES "Enable curses interface" ON)
-option(ENABLE_GTK "Enable GTK interface" ON)
+option(ENABLE_GTK "Enable GTK interface" OFF)
 option(ENABLE_SSL "Enable SSL support" ON)
 option(ENABLE_PLUGINS "Enable plugins support" ON)
 option(ENABLE_IPV6 "Enable IPv6 support" OFF)
@@ -20,7 +20,7 @@ SET(VALID_BUILD_TYPES Debug Release)
 
 if(NOT CMAKE_BUILD_TYPE)
   # Default to using "Release" as our build type.
-  set(CMAKE_BUILD_TYPE "Release" CACHE STRING 
+  set(CMAKE_BUILD_TYPE "Debug" CACHE STRING 
     "Choose the type of build, options are: ${VALID_BUILD_TYPES}." FORCE)
 endif()
 LIST(FIND VALID_BUILD_TYPES ${CMAKE_BUILD_TYPE} contains_valid)

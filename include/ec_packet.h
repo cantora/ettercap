@@ -117,6 +117,8 @@ EC_API_EXTERN inline int packet_destroy_object(struct packet_object *po);
 EC_API_EXTERN int packet_disp_data(struct packet_object *po, u_char *buf, size_t len);
 EC_API_EXTERN struct packet_object * packet_dup(struct packet_object *po, u_char flag);
 
+void packet_debug(struct packet_object *po);
+
 /* Do we want to duplicate data? */
 #define PO_DUP_NONE     0
 #define PO_DUP_PACKET   1

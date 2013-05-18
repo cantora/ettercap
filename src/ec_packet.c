@@ -24,6 +24,7 @@
 #include <ec_inet.h>
 #include <ec_ui.h>
 #include <ec_format.h>
+#include <ec_debug.h>
 
 /* protos... */
 
@@ -214,7 +215,68 @@ struct packet_object * packet_dup(struct packet_object *po, u_char flag)
    return dup_po;
 }
 
-   
+void packet_debug(struct packet_object *po)
+{
+   char ip_src[MAX_ASCII_ADDR_LEN];
+   char ip_dst[MAX_ASCII_ADDR_LEN];
+  
+   ip_addr_ntoa(&po->L3.dst, ip_dst); 
+   ip_addr_ntoa(&po->L3.src, ip_src);
+
+   DEBUG_MSG("L2:\n" \
+              "  dst:   %02x:%02x:%02x:%02x:%02x:%02x\n" \
+              "  src:   %02x:%02x:%02x:%02x:%02x:%02x\n" \
+              "  proto: 0x%02x\n" \
+              "  len:   %zu\n" \
+              "  flags: 0x%02x\n" \
+              "L3:\n" \
+              "  proto: 0x%04x\n" \
+              "  len:   %zu\n" \
+              "  paylen:%zu\n"\
+              "  optlen:%zu\n"\
+              "  ttl:   0x%02x\n"\
+              "  dst:   %s\n"\
+              "  src:   %s\n"\
+              "L4:\n"\
+              "  proto: 0x%02x\n"\
+              "  flags: 0x%02x\n"\
+              "  len:   %zu\n"\
+              "  optlen:%zu\n"\
+              "  src:   %u\n"\
+              "  dst:   %u\n"\
+              "  seq:   0x%x\n"\
+              "  ack:   0x%x\n"\
+              "fwd_len:\n"\
+              "  0x%x\n"\
+              "len:\n"\
+              "  0x%x\n"\
+              "flags:\n"\
+              "  0x04%x\n",\
+           po->L2.dst[0], po->L2.dst[1], po->L2.dst[2], po->L2.dst[3], po->L2.dst[4], po->L2.dst[5], \
+           po->L2.src[0], po->L2.src[1], po->L2.src[2], po->L2.src[3], po->L2.src[4], po->L2.src[5],\
+           po->L2.proto,\
+           po->L2.len,\
+           po->L2.flags,\
+           po->L3.proto,\
+           po->L3.len,\
+           po->L3.payload_len,\
+           po->L3.optlen,\
+           po->L3.ttl,\
+           ip_dst,\
+           ip_src,\
+           po->L4.proto,\
+           po->L4.flags,\
+           po->L4.len,\
+           po->L4.optlen,\
+           po->L4.src,\
+           po->L4.dst,\
+           po->L4.seq,\
+           po->L4.ack,\
+           po->fwd_len,\
+           po->len,\
+           po->flags\
+  );
+}   
 /* EOF */
 
 // vim:ts=3:expandtab
